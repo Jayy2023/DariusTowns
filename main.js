@@ -1,30 +1,35 @@
-// Add this JavaScript code to your main.js file
+// main.js
 
-// Function to handle automatic image slider
-function startSlider() {
-  const sliderImages = document.querySelectorAll('.slider-image');
-  let currentSlide = 0;
+document.addEventListener("DOMContentLoaded", function() {
+  // Set up the automatic image slider
+  const slider = document.querySelector(".slider");
+  const sliderImages = document.querySelectorAll(".slider-image");
 
-  // Function to hide all slides
-  function resetSlides() {
-    for (let i = 0; i < sliderImages.length; i++) {
-      sliderImages[i].style.display = 'none';
-    }
+  let currentIndex = 0;
+  let slideInterval;
+
+  // Function to start the automatic image slider
+  function startSlider() {
+    slideInterval = setInterval(nextSlide, 5000);
   }
 
   // Function to show the next slide
-  function showSlide() {
-    resetSlides();
-    sliderImages[currentSlide].style.display = 'block';
-    currentSlide = (currentSlide + 1) % sliderImages.length;
+  function nextSlide() {
+    sliderImages[currentIndex].style.transform = "scale(1)";
+    currentIndex = (currentIndex + 1) % sliderImages.length;
+    sliderImages[currentIndex].style.transform = "scale(1.05)";
   }
 
-  // Initial call to show the first slide
-  showSlide();
+  // Start the automatic image slider
+  startSlider();
 
-  // Set interval to switch slides every 2 seconds
-  setInterval(showSlide, 2000);
-}
+  // Stop the automatic image slider on hover
+  slider.addEventListener("mouseenter", function() {
+    clearInterval(slideInterval);
+  });
 
-// Call the function to start the image slider
-startSlider();
+  // Resume the automatic image slider on mouse leave
+  slider.addEventListener("mouseleave", function() {
+    startSlider();
+  });
+});

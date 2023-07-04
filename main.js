@@ -1,33 +1,30 @@
-// custom.js
+// Add this JavaScript code to your main.js file
 
-// Slider functionality
-const slider = document.querySelector('.slider');
+// Function to handle automatic image slider
+function startSlider() {
+  const sliderImages = document.querySelectorAll('.slider-image');
+  let currentSlide = 0;
 
-let isDown = false;
-let startX;
-let scrollLeft;
+  // Function to hide all slides
+  function resetSlides() {
+    for (let i = 0; i < sliderImages.length; i++) {
+      sliderImages[i].style.display = 'none';
+    }
+  }
 
-slider.addEventListener('mousedown', (e) => {
-  isDown = true;
-  slider.classList.add('active');
-  startX = e.pageX - slider.offsetLeft;
-  scrollLeft = slider.scrollLeft;
-});
+  // Function to show the next slide
+  function showSlide() {
+    resetSlides();
+    sliderImages[currentSlide].style.display = 'block';
+    currentSlide = (currentSlide + 1) % sliderImages.length;
+  }
 
-slider.addEventListener('mouseleave', () => {
-  isDown = false;
-  slider.classList.remove('active');
-});
+  // Initial call to show the first slide
+  showSlide();
 
-slider.addEventListener('mouseup', () => {
-  isDown = false;
-  slider.classList.remove('active');
-});
+  // Set interval to switch slides every 2 seconds
+  setInterval(showSlide, 2000);
+}
 
-slider.addEventListener('mousemove', (e) => {
-  if (!isDown) return;
-  e.preventDefault();
-  const x = e.pageX - slider.offsetLeft;
-  const walk = (x - startX) * 3; // Adjust scroll speed here
-  slider.scrollLeft = scrollLeft - walk;
-});
+// Call the function to start the image slider
+startSlider();
